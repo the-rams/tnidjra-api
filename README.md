@@ -1,0 +1,1 @@
+Tnidjra is a recipe app that allows you to add new recipes and share it with your friends & family!
