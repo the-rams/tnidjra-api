@@ -1,0 +1,19 @@
+{
+  "name": "tnidjra-api",
+  "version": "1.0.0",
+  "description": "api microservice of the recipe app tnidjra.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-rams/tnidjra-api.git"
+  },
+  "author": "ro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-rams/tnidjra-api/issues"
+  },
+  "homepage": "https://github.com/the-rams/tnidjra-api#readme"
+}
