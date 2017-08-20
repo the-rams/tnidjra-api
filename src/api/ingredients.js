@@ -1,26 +1,17 @@
 const router = require('express').Router();
-const ingredients = [
-  {
-    id: 1,
-    name: 'carotte',
-    proteins: 0.9,
-    carbs: 10,
-    fat: 0.2,
-    calories: 41,
-  },
-  {
-    id: 2,
-    name: 'tomate',
-    proteins: 0.9,
-    carbs: 3.9,
-    fat: 0.2,
-    calories: 18,
-  }
-]
+const ingredientService = require('../service/ingredientService');
+
 function getRouter() {
 
-  router.get('/ingredients', function(req, res) {
-    res.send(ingredients);
+
+  router.get('/ingredients', function(req, res, next) {
+    ingredientService.findAll().then((result) => {
+        res.status(httpStatusCodes.CREATED).json(result);
+        console.log('response sent');
+    }).catch((error) => {
+        res.status(error.statusCode).json(error.message);
+        next(error);
+    });
   });
 
   router.get('/ingredients/:id', function(req, res) {

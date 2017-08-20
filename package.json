@@ -4,7 +4,7 @@
   "description": "api microservice of the recipe app tnidjra.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +19,17 @@
   "homepage": "https://github.com/the-rams/tnidjra-api#readme",
   "dependencies": {
     "body-parser": "1.17.2",
+    "country-data": "0.0.31",
     "express": "4.15.4",
-    "nodemon": "1.11.0"
+    "express-joi-middleware": "^1.0.0",
+    "google-libphonenumber": "^3.0.0",
+    "http-status-codes": "^1.1.6",
+    "joi": "^10.4.1",
+    "moment": "^2.18.1",
+    "mongoose": "^4.9.3",
+    "mongoose-paginate": "^5.0.3",
+    "morgan": "^1.8.2",
+    "nodemon": "1.11.0",
+    "throw.js": "^3.0.1"
   }
 }
