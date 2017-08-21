@@ -52,8 +52,18 @@ function updatePartialById(id, body) {
             result.carbs = carbs || result.carbs;
             result.fat = fat || result.fat;
             result.calories = calories || result.calories;
-            dao.save(result).then(resolve).catch(reject);
-        }).catch(reject);
+            dao.save(result)
+                .then(resolve)
+                .catch((error) => {
+                    // TODO: Replace with proper logger
+                    console.log(error);
+                    reject(new restError.InternalServerError(error.message));
+                });
+        }).catch((error) => {
+          // TODO: Replace with proper logger
+          console.log(error);
+          reject(new restError.InternalServerError(error.message));
+        });
     });
 }
 
@@ -78,8 +88,18 @@ function updateById(id, body) {
             result.carbs = carbs;
             result.fat = fat;
             result.calories = calories;
-            dao.save(result).then(resolve).catch(reject);
-        }).catch(reject);
+            dao.save(result)
+                .then(resolve)
+                .catch((error) => {
+                  // TODO: Replace with proper logger
+                  console.log(error);
+                  reject(new restError.InternalServerError(error.message));
+                });
+        }).catch((error) => {
+          // TODO: Replace with proper logger
+          console.log(error);
+          reject(new restError.InternalServerError(error.message));
+        });
     });
 }
 
@@ -90,14 +110,28 @@ function updateById(id, body) {
  */
 function removeById(id) {
     return new Promise((resolve, reject) => {
-        dao.findById(id).then((result) => {
-            if (!result) {
-                reject(new restError.NotFound());
-                return;
-            }
+        dao.findById(id)
+            .then((result) => {
+                if (!result) {
+                    reject(new restError.NotFound());
+                    return;
+                }
 
-            dao.removeById(id).then(resolve).catch(reject);
-        }).catch(reject);
+                dao.removeById(id)
+                    .then(resolve)
+                    .catch((error) => {
+                        // TODO: Replace with proper logger
+                        console.log(error);
+                        reject(
+                            new restError.InternalServerError(error.message)
+                        );
+                    });
+            })
+            .catch((error) => {
+                // TODO: Replace with proper logger
+                console.log(error);
+                reject(new restError.InternalServerError(error.message));
+            });
     });
 }
 
@@ -149,7 +183,11 @@ function findById(id) {
             }
 
             resolve(result);
-        }).catch(reject);
+        }).catch((error) => {
+          // TODO: Replace with proper logger
+          console.log(error);
+          reject(new restError.InternalServerError(error.message));
+        });
     });
 }
 
@@ -166,6 +204,10 @@ function findAll() {
             }
 
             resolve(result);
-        }).catch(reject);
+        }).catch((error) => {
+          // TODO: Replace with proper logger
+          console.log(error);
+          reject(new restError.InternalServerError(error.message));
+        });
     });
 }

@@ -75,11 +75,10 @@ function getRouter() {
       const body = req.body;
       ingredientService.updatePartialById(req.params.id, body)
       .then((result) => {
-        consoole.log('loooooooool')
-          res.status(httpStatusCodes.OK).json(result);
+        res.status(httpStatusCodes.OK).json(result);
       }).catch((error) => {
-          res.status(error.statusCode).json(error.message);
-          next(error);
+        res.status(error.statusCode).json(error.message);
+        next(error);
       });
   });
 
