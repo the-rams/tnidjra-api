@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const ingredientService = require('../service/ingredientService');
+const httpStatusCodes = require('http-status-codes');
 
 function getRouter() {
 
@@ -7,7 +8,6 @@ function getRouter() {
   router.get('/ingredients', function(req, res, next) {
     ingredientService.findAll().then((result) => {
         res.status(httpStatusCodes.CREATED).json(result);
-        console.log('response sent');
     }).catch((error) => {
         res.status(error.statusCode).json(error.message);
         next(error);
@@ -15,34 +15,41 @@ function getRouter() {
   });
 
   router.get('/ingredients/:id', function(req, res) {
-    ingredients.forEach(function(ingredient) {
-      if (ingredient.id == req.params.id) {
-        res.send(ingredient);
-      }
-    });
+      ingredientService.findById(req.params.id).then((result) => {
+          res.status(httpStatusCodes.OK).json(result);
+      }).catch((error) => {
+          res.status(error.statusCode).json(error.message);
+          next(error);
+      });
   });
 
   router.post('/ingredients', function(req, res) {
-    const ingredient = req.body;
-    ingredients.push(ingredient);
-    res.status(201).json(ingredient);
-  });
-
-  router.put('/ingredients/:id', function(req, res) {
-    ingredients.forEach(function(ingredient, key) {
-      if (ingredient.id == req.params.id) {
-        ingredients[key] = req.body;
-        res.status(200).json(ingredients[key]);
-      }
+    const body = req.body;
+    ingredientService.create(body).then((result) => {
+        res.status(httpStatusCodes.CREATED).json(result);
+    }).catch((error) => {
+        res.status(error.statusCode).json(error.message);
+        next(error);
     });
   });
 
+  router.put('/ingredients/:id', function(req, res) {
+      const body = req.body;
+      ingredientService.updatePartialById(req.params.id, body).then((result) => {
+          res.status(httpStatusCodes.OK).json(result);
+      }).catch((error) => {
+          res.status(error.statusCode).json(error.message);
+          next(error);
+      });
+  });
+
   router.delete('/ingredients/:id', function(req, res) {
-    ingredients.forEach(function(ingredient, key) {
-      if (ingredient.id == req.params.id) {
-        ingredients.splice(key, 1);
-        res.status(200).json(ingredients[key]);
-      }
+    const body = req.body;
+    ingredientService.removeById(req.params.id).then((result) => {
+        res.status(httpStatusCodes.OK).json('The ingredient was deleted');
+    }).catch((error) => {
+        res.status(error.statusCode).json(error.message);
+        next(error);
     });
   });
   return router;

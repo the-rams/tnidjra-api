@@ -81,10 +81,10 @@ function getRouter() {
                 joiOptions: {
                     abortEarly: false,
                     allowUnknown: false,
-                },
-            },
+                }
+            }
         ),
-        createUser,
+        createUser
     );
 
     return router;

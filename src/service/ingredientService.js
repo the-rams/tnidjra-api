@@ -47,10 +47,12 @@ function updatePartialById(id, body) {
             }
 
             // Update all fields
-            const { name, description, status } = body;
+            const { name, proteins, carbs, fat, calories } = body;
             result.name = name || result.name;
-            result.description = description || result.description;
-            result.status = status || result.status;
+            result.proteins = proteins || result.proteins;
+            result.carbs = carbs || result.carbs;
+            result.fat = fat || result.fat;
+            result.calories = calories || result.calories;
             dao.save(result).then(resolve).catch(reject);
         }).catch(reject);
     });
@@ -70,11 +72,13 @@ function updateById(id, body) {
                 return;
             }
 
-            // Update all fields
-            const { name, description, status } = body;
+            /// Update all fields
+            const { name, proteins, carbs, fat, calories } = body;
             result.name = name;
-            result.description = description;
-            result.status = status;
+            result.proteins = proteins;
+            result.carbs = carbs;
+            result.fat = fat;
+            result.calories = calories;
             dao.save(result).then(resolve).catch(reject);
         }).catch(reject);
     });
@@ -105,15 +109,13 @@ function removeById(id) {
  */
 function create(data) {
     return new Promise((resolve, reject) => {
-        dao.findByEmail(data.email).then((result) => {
+        dao.findByName(data.name).then((result) => {
             if (result) {
-                reject(new restError.Conflict('A ingredient with this email already exists.'));
+                reject(new restError.Conflict('An ingredient with this name already exists.'));
             }
 
             // Create a new ingredient instance
             const ingredientInstance = new Ingredient(data);
-            // Get country by iso2 code
-            ingredientInstance.country = lookup.countries({ alpha2: data.country_code })[0].name;
             dao.save(ingredientInstance).then((res) => {
                 resolve(res);
             }).catch((error) => {
