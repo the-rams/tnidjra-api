@@ -28,9 +28,9 @@ module.exports = {
 
 /**
  * Create a user.
- * @param req
- * @param res
- * @param next
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
  */
 function createUser(req, res, next) {
     const body = req.validated.body;
@@ -50,9 +50,10 @@ function createUser(req, res, next) {
 
 /**
  * Get router.
- * @returns {*}
+ * @return {*} router.
  */
 function getRouter() {
+    // eslint-disable-next-line new-cap
     const router = express.Router();
 
     const createUserSchema = {
@@ -81,7 +82,7 @@ function getRouter() {
                 joiOptions: {
                     abortEarly: false,
                     allowUnknown: false,
-                }
+                },
             }
         ),
         createUser

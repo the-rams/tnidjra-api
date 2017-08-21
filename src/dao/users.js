@@ -29,9 +29,9 @@ module.exports = {
 /* ************************************* */
 
 /**
- *
- * @param id
- * @returns {*}
+ * Delete corresponding User.
+ * @param {string} id The id of the user.
+ * @return {*} The user.
  */
 function removeById(id) {
     return User.findByIdAndRemove(id);
@@ -39,16 +39,17 @@ function removeById(id) {
 
 /**
  * Find by name.
- * @param name
- * @returns {*}
+ * @param {string} name The name of the user.
+ * @return {*} The user.
  */
 function findByName(name) {
-    return User.findOne({ name });
+    return User.findOne({name});
 }
 
 /**
  * Save a User instance.
- * @param UserInstance
+ * @param {object} userInstance The user to create.
+ * @return {object} The saved user.
  */
 function save(userInstance) {
     return userInstance.save();
@@ -56,8 +57,8 @@ function save(userInstance) {
 
 /**
  * Find by id.
- * @param id
- * @returns {*}
+ * @param {string} id Id of the User.
+ * @return {*} The corresponding user.
  */
 function findById(id) {
     return User.findById(id);
@@ -65,18 +66,18 @@ function findById(id) {
 
 /**
  * Find by email.
- * @param name
- * @returns {*}
+ * @param {string} email The name of the user.
+ * @return {*} The user.
  */
 function findByEmail(email) {
-    return User.findOne({ email });
+    return User.findOne({email});
 }
 
 /**
  * Find all paginated.
- * @param queries
- * @param options
- * @returns {*}
+ * @param {object} queries the queries to run on mongodb.
+ * @param {object} options options of the query.
+ * @return {*} Paginated list of users.
  */
 function findAllPaginated(queries, options) {
     return User.paginate(queries, options);

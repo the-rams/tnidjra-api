@@ -1,13 +1,12 @@
-//-------------------imports-----------------
+// -------------------imports-----------------
 const express = require('express');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const initializeService = require('./service/initializeService');
 const ingredientsApi = require('./api/ingredients');
 const usersApi = require('./api/users');
-//-------------------constants---------------
+// -------------------constants---------------
 const port = '3000';
-//-------------------code--------------------
+// -------------------code--------------------
 const app = express();
 
 // Initialize database

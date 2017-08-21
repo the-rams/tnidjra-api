@@ -33,9 +33,9 @@ module.exports = {
 
 /**
  * Update partially by id.
- * @param id
- * @param body
- * @returns {Promise}
+ * @param {string} id Id of the user.
+ * @param {object} body Body of the user.
+ * @return {Promise} Result of the query.
  */
 function updatePartialById(id, body) {
     return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ function updatePartialById(id, body) {
             }
 
             // Update all fields
-            const { name, description, status } = body;
+            const {name, description, status} = body;
             result.name = name || result.name;
             result.description = description || result.description;
             result.status = status || result.status;
@@ -57,9 +57,9 @@ function updatePartialById(id, body) {
 
 /**
  * Update by id.
- * @param id
- * @param body
- * @returns {Promise}
+ * @param {string} id Id of the user.
+ * @param {object} body The body of the user.
+ * @return {Promise} The result of updating the user.
  */
 function updateById(id, body) {
     return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ function updateById(id, body) {
             }
 
             // Update all fields
-            const { name, description, status } = body;
+            const {name, description, status} = body;
             result.name = name;
             result.description = description;
             result.status = status;
@@ -81,8 +81,8 @@ function updateById(id, body) {
 
 /**
  * Remove by id.
- * @param id
- * @returns {Promise}
+ * @param {string} id Id of the user.
+ * @return {Promise} The result of removing the user from DB.
  */
 function removeById(id) {
     return new Promise((resolve, reject) => {
@@ -99,32 +99,36 @@ function removeById(id) {
 
 /**
  * Create a user.
- * @param data representing a user.
- * @returns {*} resolved promise, error or created user data.
+ * @param {object} data representing an user.
+ * @return {*} resolved promise, error or created user data.
  */
 function create(data) {
     return new Promise((resolve, reject) => {
         dao.findByEmail(data.email).then((result) => {
             if (result) {
-                reject(new restError.Conflict('A user with this email already exists.'));
+                reject(new restError
+                .Conflict('A user with this email already exists.'));
             }
 
             // Create a new user instance
             const userInstance = new User(data);
             // Get country by iso2 code
-            userInstance.country = lookup.countries({ alpha2: data.country_code })[0].name;
+            userInstance.country = lookup
+            .countries({alpha2: data.country_code})[0].name;
             dao.save(userInstance).then((res) => {
                 resolve(res);
             }).catch((error) => {
                 // TODO: Replace with proper logger
                 console.log(error);
-                reject(new restError.InternalServerError('There was a problem with the database,' +
+                reject(new restError
+                .InternalServerError('There was a problem with the database,' +
                     ' contact your administrator'));
             });
         }).catch((error) => {
             // TODO: Replace with proper logger
             console.log(error);
-            reject(new restError.InternalServerError('There was a problem with the database,' +
+            reject(new restError
+            .InternalServerError('There was a problem with the database,' +
                 ' contact your administrator'));
         });
     });
@@ -132,8 +136,8 @@ function create(data) {
 
 /**
  * Find by id.
- * @param id
- * @returns {Promise}
+ * @param {number} id The id of the user.
+ * @return {Promise} The result of finding an user.
  */
 function findById(id) {
     return new Promise((resolve, reject) => {

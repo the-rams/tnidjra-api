@@ -1,12 +1,34 @@
-const router = require('express').Router();
+// eslint-disable-next-line new-cap
+const express = require('express');
 const joi = require('joi');
 const expressJoiMiddleware = require('express-joi-middleware');
 const ingredientService = require('../service/ingredientService');
 const httpStatusCodes = require('http-status-codes');
 
-function getRouter() {
+/**
+ * Create an ingredient.
+ * @param {object} req http request.
+ * @param {object} res http response.
+ * @param {object} next the next middleware in the stack.
+ */
+function createIngredient(req, res, next) {
+    const body = req.body;
+    ingredientService.create(body).then((result) => {
+        res.status(httpStatusCodes.CREATED).json(result);
+    }).catch((error) => {
+        res.status(error.statusCode).json(error.message);
+        next(error);
+    });
+}
 
-  //----------------------------Schema validation------------------------------
+/**
+ *
+ * @return {*} router.
+ */
+function getRouter() {
+  // ----------------------------Schema validation------------------------------
+  // eslint-disable-next-line new-cap
+  const router = express.Router();
   const createIngredientSchema = {
       body: {
           name: joi.string().required(),
@@ -43,23 +65,17 @@ function getRouter() {
             joiOptions: {
                 abortEarly: false,
                 allowUnknown: false,
-            }
+            },
         }
     ),
-    function(req, res) {
-      const body = req.body;
-      ingredientService.create(body).then((result) => {
-          res.status(httpStatusCodes.CREATED).json(result);
-      }).catch((error) => {
-          res.status(error.statusCode).json(error.message);
-          next(error);
-      });
-    }
+    createIngredient
   );
 
-  router.put('/ingredients/:id', function(req, res) {
+  router.put('/ingredients/:id', function(req, res, next) {
       const body = req.body;
-      ingredientService.updatePartialById(req.params.id, body).then((result) => {
+      ingredientService.updatePartialById(req.params.id, body)
+      .then((result) => {
+        consoole.log('loooooooool')
           res.status(httpStatusCodes.OK).json(result);
       }).catch((error) => {
           res.status(error.statusCode).json(error.message);
@@ -68,9 +84,9 @@ function getRouter() {
   });
 
   router.delete('/ingredients/:id', function(req, res) {
-    const body = req.body;
     ingredientService.removeById(req.params.id).then((result) => {
-        res.status(httpStatusCodes.OK).json('The ingredient was deleted');
+        res.status(httpStatusCodes.OK)
+        .json(`The ingredient '${result.name}' was deleted`);
     }).catch((error) => {
         res.status(error.statusCode).json(error.message);
         next(error);

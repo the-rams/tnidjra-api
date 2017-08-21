@@ -28,9 +28,9 @@ module.exports = {
 
 /**
  * Middleware that send a SERVICE_UNAVAILABLE if service is not initialize.
- * @param req
- * @param res
- * @param next
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
  */
 function middleware(req, res, next) {
     if (!isInitialized) {
@@ -44,7 +44,7 @@ function middleware(req, res, next) {
 
 /**
  * Run initialize.
- * @returns {Promise} Promise
+ * @return {Promise} The result of running the server.
  */
 function run() {
     return new Promise((resolve, reject) => {
@@ -55,6 +55,10 @@ function run() {
         promises.push(databaseService.initialize());
 
         // Resolve twice because only configuration-api can prevent the startup
+        /**
+        *
+        * @param {object} data The data of the connection.
+        */
         function ending(data) {
             isInitialized = true;
             resolve(data);

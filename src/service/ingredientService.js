@@ -3,7 +3,6 @@
 /* ************************************* */
 const dao = require('../dao/ingredients');
 const Ingredient = require('../model/Ingredient');
-const lookup = require('country-data').lookup;
 const restError = require('throw.js');
 
 /* ************************************* */
@@ -34,9 +33,9 @@ module.exports = {
 
 /**
  * Update partially by id.
- * @param id
- * @param body
- * @returns {Promise}
+ * @param {number} id Id of the ingredient.
+ * @param {object} body Body of the ingredient.
+ * @return {Promise} Result of the query.
  */
 function updatePartialById(id, body) {
     return new Promise((resolve, reject) => {
@@ -47,7 +46,7 @@ function updatePartialById(id, body) {
             }
 
             // Update all fields
-            const { name, proteins, carbs, fat, calories } = body;
+            const {name, proteins, carbs, fat, calories} = body;
             result.name = name || result.name;
             result.proteins = proteins || result.proteins;
             result.carbs = carbs || result.carbs;
@@ -60,9 +59,9 @@ function updatePartialById(id, body) {
 
 /**
  * Update by id.
- * @param id
- * @param body
- * @returns {Promise}
+ * @param {string} id Id of the ingredient.
+ * @param {object} body The body of the ingredient.
+ * @return {Promise} The result of updating the ingredient.
  */
 function updateById(id, body) {
     return new Promise((resolve, reject) => {
@@ -72,8 +71,8 @@ function updateById(id, body) {
                 return;
             }
 
-            /// Update all fields
-            const { name, proteins, carbs, fat, calories } = body;
+            // Update all fields
+            const {name, proteins, carbs, fat, calories} = body;
             result.name = name;
             result.proteins = proteins;
             result.carbs = carbs;
@@ -86,8 +85,8 @@ function updateById(id, body) {
 
 /**
  * Remove by id.
- * @param id
- * @returns {Promise}
+ * @param {string} id Id of the ingredient.
+ * @return {Promise} The result of removing the ingredient from DB.
  */
 function removeById(id) {
     return new Promise((resolve, reject) => {
@@ -104,14 +103,15 @@ function removeById(id) {
 
 /**
  * Create a ingredient.
- * @param data representing a ingredient.
- * @returns {*} resolved promise, error or created ingredient data.
+ * @param {object} data representing an ingredient.
+ * @return {*} resolved promise, error or created ingredient data.
  */
 function create(data) {
     return new Promise((resolve, reject) => {
         dao.findByName(data.name).then((result) => {
             if (result) {
-                reject(new restError.Conflict('An ingredient with this name already exists.'));
+                reject(new restError
+                .Conflict('An ingredient with this name already exists.'));
             }
 
             // Create a new ingredient instance
@@ -121,13 +121,15 @@ function create(data) {
             }).catch((error) => {
                 // TODO: Replace with proper logger
                 console.log(error);
-                reject(new restError.InternalServerError('There was a problem with the database,' +
+                reject(new restError
+                .InternalServerError('There was a problem with the database,' +
                     ' contact your administrator'));
             });
         }).catch((error) => {
             // TODO: Replace with proper logger
             console.log(error);
-            reject(new restError.InternalServerError('There was a problem with the database,' +
+            reject(new restError
+            .InternalServerError('There was a problem with the database,' +
                 ' contact your administrator'));
         });
     });
@@ -135,8 +137,8 @@ function create(data) {
 
 /**
  * Find by id.
- * @param id
- * @returns {Promise}
+ * @param {number} id The id of the ingredient.
+ * @return {Promise} The result of finding an ingredient.
  */
 function findById(id) {
     return new Promise((resolve, reject) => {
@@ -152,8 +154,8 @@ function findById(id) {
 }
 
 /**
- * Find all.
- * @returns {Promise}
+ * Find {array} all The list of all the ingredients.
+ * @return {Promise} The result of finding an ingredient.
  */
 function findAll() {
     return new Promise((resolve, reject) => {

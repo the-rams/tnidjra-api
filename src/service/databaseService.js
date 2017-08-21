@@ -26,7 +26,7 @@ module.exports = {
 
 /**
  * Is Database connection up ?
- * @returns {boolean}
+ * @return {boolean} True if the server is up.
  */
 function isUp() {
     return mongoose.connection.readyState === 1;
@@ -34,7 +34,7 @@ function isUp() {
 
 /**
  * Initialize database.
- * @returns {Promise}
+ * @return {Promise} Result of running the server.
  */
 function initialize() {
     return new Promise((resolve, reject) => {
